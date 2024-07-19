@@ -84,6 +84,7 @@ jobs:
       - create-tag
     steps:
       - name: Creating use API
+        uses: actions/checkout@v4
         run: |
           ISSUE_BODY="Release: ${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\nRelease: ${{ github.run_number }}"
