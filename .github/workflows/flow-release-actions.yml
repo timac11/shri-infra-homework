@@ -80,14 +80,9 @@ jobs:
   # Create issue
   create-issue:
     runs-on: ubuntu-latest
+    needs:
+      - create-tag
     steps:
-      - name: Create issue
-        run: |
-          create
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
       - name: Creating use API
         run: |
           ISSUE_BODY="Release: ${{ github.run_number }}"
@@ -99,4 +94,6 @@ jobs:
           ISSUE_BODY="$ISSUE_BODY\n\nDocker Images:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}
           gh issue create --title "Release creation v${{ github.run_number }}" --body "$ISSUE_BODY" --repo $GITHUB_REPOSITORY
         env:
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
