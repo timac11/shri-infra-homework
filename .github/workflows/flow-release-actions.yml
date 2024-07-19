@@ -87,6 +87,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Create Issue
         run: |
+          git fetch
           ISSUE_BODY="Release: ${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\nRelease: ${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\nDate: $(date +%Y-%m-%d)"
