@@ -57,7 +57,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }} .
-          docker tag cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }} cr.yandex/${{ secrets.YANDEX_CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}_latest
+          docker tag cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }} cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}_latest
           docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}
           docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}_latest
 
