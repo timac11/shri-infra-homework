@@ -85,9 +85,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history is fetched
       - name: Create Issue
         run: |
-          git fetch --prune --unshallow --tags
           ISSUE_BODY="Release: ${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\nRelease: ${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\nDate: $(date +%Y-%m-%d)"
