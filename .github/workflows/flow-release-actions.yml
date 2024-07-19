@@ -56,10 +56,10 @@ jobs:
         run: echo ${{ secrets.YANDEX_TOKEN }} | docker login --username oauth --password-stdin cr.yandex
       - name: Build and push Docker image
         run: |
-          docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }} .
-          docker tag cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }} cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}_latest
-          docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}
-          docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/shri-infra:${{ github.run_number }}_latest
+          docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }} .
+          docker tag cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }} cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}_latest
+          docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}
+          docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}_latest
 
   # create tag
   create-tag:
@@ -78,4 +78,25 @@ jobs:
           git push origin $tag_name
       
   # Create issue
-
+  create-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create issue
+        run: |
+          create
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+      - name: Creating use API
+        run: |
+          ISSUE_BODY="Release: ${{ github.run_number }}"
+          ISSUE_BODY="$ISSUE_BODY\n\nRelease: ${{ github.run_number }}"
+          ISSUE_BODY="$ISSUE_BODY\n\nDate: $(date +%Y-%m-%d)"
+          ISSUE_BODY="$ISSUE_BODY\n\nAuthor**: ${{ github.actor }}"
+          tag_name="v${{ github.run_number }}"
+          ISSUE_BODY="$ISSUE_BODY\n\nCommits List**: $(git log --pretty=format:"%h - %s" $tag_name..HEAD)"
+          ISSUE_BODY="$ISSUE_BODY\n\nDocker Images:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}
+          gh issue create --title "Release creation v${{ github.run_number }}" --body "$ISSUE_BODY" --repo $GITHUB_REPOSITORY
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
