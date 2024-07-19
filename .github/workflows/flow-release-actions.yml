@@ -95,8 +95,8 @@ jobs:
           ISSUE_BODY="$ISSUE_BODY\n\nAuthor**: ${{ github.actor }}"
           tag_name="v${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\nCommits List**: $(git log --pretty=format:"%h - %s" $tag_name..HEAD)"
-          ISSUE_BODY="$ISSUE_BODY\n\nDocker Images:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}
-          gh issue create --title "Release creation v${{ github.run_number }}" --body "$ISSUE_BODY" --repo $GITHUB_REPOSITORY
+          ISSUE_BODY="$ISSUE_BODY\n\nDocker Images:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}"
+          gh issue create --title "Release creation v${{ github.run_number }}" --body $ISSUE_BODY --repo $GITHUB_REPOSITORY
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
