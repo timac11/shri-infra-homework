@@ -97,7 +97,8 @@ jobs:
           prev_tag=$(git describe --tags --abbrev=0 HEAD^)
           ISSUE_BODY="$ISSUE_BODY\n\nCommits List**: $(git log --pretty=format:"%h - %s" $tag_name..$prev_tag)"
           ISSUE_BODY="$ISSUE_BODY\n\nDocker Images:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}"
-          gh issue create --title "Release creation v${{ github.run_number }}" --body '$ISSUE_BODY' --repo $GITHUB_REPOSITORY
+          echo -e $ISSUE_BODY > msg
+          gh issue create --title "Release creation v${{ github.run_number }}" --body "$(cat msg)" --repo $GITHUB_REPOSITORY
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
