@@ -1,0 +1,43 @@
+name: Deploy Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release version'
+        required: true
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Deploy Docker image to Prod
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.PUBLIC_IP }} \
+          "docker pull cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}_latest && \
+           docker run -p 3000:3000 -d --restart unless-stopped --name app cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}_latest"
+      - name: Create Issue
+        run: |
+          ISSUE_BODY="**Release:** ${{ github.run_number }} was deployed"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Date**: $(date +%Y-%m-%d)"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Author**: ${{ github.actor }}"
+          tag_name="v${{ github.run_number }}"
+          echo tag_name $tag_name
+          prev_tag=$(git describe --tags --abbrev=0 HEAD^)
+          echo prev_tag $prev_tag
+          ISSUE_BODY="$ISSUE_BODY\n\n**Docker Image**:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}"
+          echo -e $ISSUE_BODY > msg
+          gh issue create --title "Release creation v${{ github.run_number }}" --body "$(cat msg)" --repo $GITHUB_REPOSITORY
+        env:
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
