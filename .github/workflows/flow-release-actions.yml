@@ -90,13 +90,15 @@ jobs:
       - name: Create Issue
         run: |
           ISSUE_BODY="Release: ${{ github.run_number }}"
-          ISSUE_BODY="$ISSUE_BODY\n\nRelease: ${{ github.run_number }}"
-          ISSUE_BODY="$ISSUE_BODY\n\nDate: $(date +%Y-%m-%d)"
-          ISSUE_BODY="$ISSUE_BODY\n\nAuthor**: ${{ github.actor }}"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Release**: ${{ github.run_number }}"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Date**: $(date +%Y-%m-%d)"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Author**: ${{ github.actor }}"
           tag_name="v${{ github.run_number }}"
+          echo tag_name $tag_name
           prev_tag=$(git describe --tags --abbrev=0 HEAD^)
-          ISSUE_BODY="$ISSUE_BODY\n\nCommits List**: $(git log --pretty=format:"%h - %s" $tag_name..$prev_tag)"
-          ISSUE_BODY="$ISSUE_BODY\n\nDocker Images:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}"
+          echo prev_tag $prev_tag
+          ISSUE_BODY="$ISSUE_BODY\n\n**Commits List**: $(git log --pretty=format:"%h - %s" $tag_name..$prev_tag)"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Docker Image**:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}"
           echo -e $ISSUE_BODY > msg
           gh issue create --title "Release creation v${{ github.run_number }}" --body "$(cat msg)" --repo $GITHUB_REPOSITORY
         env:
