@@ -89,15 +89,14 @@ jobs:
           fetch-depth: 0  # full history is fetched
       - name: Create Issue
         run: |
-          ISSUE_BODY="Release: ${{ github.run_number }}"
-          ISSUE_BODY="$ISSUE_BODY\n\n**Release**: ${{ github.run_number }}"
+          ISSUE_BODY="**Release:** ${{ github.run_number }}"
           ISSUE_BODY="$ISSUE_BODY\n\n**Date**: $(date +%Y-%m-%d)"
           ISSUE_BODY="$ISSUE_BODY\n\n**Author**: ${{ github.actor }}"
           tag_name="v${{ github.run_number }}"
           echo tag_name $tag_name
           prev_tag=$(git describe --tags --abbrev=0 HEAD^)
           echo prev_tag $prev_tag
-          ISSUE_BODY="$ISSUE_BODY\n\n**Commits List**: $(git log --pretty=format:"%h - %s" $tag_name..$prev_tag)"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Commits List**: $(git log --pretty=short $prev_tag..$tag_name)"
           ISSUE_BODY="$ISSUE_BODY\n\n**Docker Image**:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}"
           echo -e $ISSUE_BODY > msg
           gh issue create --title "Release creation v${{ github.run_number }}" --body "$(cat msg)" --repo $GITHUB_REPOSITORY
@@ -105,3 +104,28 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Update changelog
+  update-changelog:
+    runs-on: ubuntu-latest
+    needs:
+      - create-issue
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history is fetched
+      - name: Change Changelog
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout main
+          tag_name="v${{ github.run_number }}"
+          echo tag_name $tag_name
+          prev_tag=$(git describe --tags --abbrev=0 HEAD^)
+          echo prev_tag $prev_tag
+          echo CHANGELOG.md > $chengelog
+          changelog="## Release ${{ github.run_number }} - $(date +%Y-%m-%d)\n$(git log --pretty=short $prev_tag..$tag_name)\n\n$chengelog"
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG.md for release ${{ github.run_number }}"
+          git push
