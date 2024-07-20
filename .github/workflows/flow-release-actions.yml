@@ -126,7 +126,7 @@ jobs:
           echo prev_tag $prev_tag
           changelog=$(cat CHANGELOG.md)
           changelog="## Release ${{ github.run_number }} - $(date +%Y-%m-%d)\n$(git log --pretty=short $prev_tag..$tag_name)\n\n$changelog"
-          echo $changelog > CHANGELOG.md
+          echo -e $changelog > CHANGELOG.md
           echo $changelog
           cat CHANGELOG.md
           git add CHANGELOG.md
