@@ -32,7 +32,7 @@ jobs:
           ISSUE_BODY="$ISSUE_BODY\n\n**Author**: ${{ github.actor }}"
           ISSUE_BODY="$ISSUE_BODY\n\n**Docker Image**:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}"
           echo -e $ISSUE_BODY > msg
-          gh issue create --title "Release creation v${{ github.run_number }}" --body "$(cat msg)" --repo $GITHUB_REPOSITORY
+          gh issue create --title "Release deployed v${{ github.run_number }}" --body "$(cat msg)" --repo $GITHUB_REPOSITORY
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
