@@ -22,6 +22,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.PUBLIC_IP }} \
           "docker pull cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}_latest && \
+           docker stop app && \
+           docker rm app && \
            docker run -p 3000:3000 -d --restart unless-stopped --name app cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}_latest"
       - name: Create Issue
         run: |
