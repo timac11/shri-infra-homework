@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Update Issue
         run: |
-          echo $(gh issue list -m "Release creation v${{ github.event.inputs.release_version }}")
+          echo $(gh issue list --search "Release creation v${{ github.event.inputs.release_version }} in:title")
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
