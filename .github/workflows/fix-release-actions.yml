@@ -91,6 +91,8 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history is fetched
       - name: Update Issue
         run: |
           issue_id=$(echo $(gh issue list --search "Release creation v${{ github.event.inputs.release_version }} in:title") | awk '{print $1;}')
