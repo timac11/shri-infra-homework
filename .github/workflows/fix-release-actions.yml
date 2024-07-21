@@ -79,7 +79,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git checkout -b releases/${{ github.event.inputs.release_version }}
-          tag_name="v{{ github.event.inputs.release_version }}_fix${{ github.run_number }}"
+          tag_name="v${{ github.event.inputs.release_version }}_fix${{ github.run_number }}"
           git tag -a $tag_name -m "Fix for release $tag_name"
           git push origin $tag_name
 
@@ -98,8 +98,8 @@ jobs:
           ISSUE_BODY="**Fix Release:** ${{ github.event.inputs.release_version }}"
           ISSUE_BODY="$ISSUE_BODY\n\n**Date**: $(date +%Y-%m-%d)"
           ISSUE_BODY="$ISSUE_BODY\n\n**Author**: ${{ github.actor }}"
-          tag_name="v{{ github.event.inputs.release_version }}_fix${{ github.run_number }}"
-          prev_tag="v{{ github.event.inputs.release_version }}"
+          tag_name="v${{ github.event.inputs.release_version }}_fix${{ github.run_number }}"
+          prev_tag="v${{ github.event.inputs.release_version }}"
           ISSUE_BODY="$ISSUE_BODY\n\n**Commits List**: $(git log --pretty=short $prev_tag..$tag_name)"
           ISSUE_BODY="$ISSUE_BODY\n\n**Docker Image**:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}"
           echo -e $ISSUE_BODY > msg
