@@ -1,7 +1,4 @@
-## Release 22 - 2024-07-20
-commit c42cf16c9c1fed4cc709bd180ef96f70b863621e Author: aleksandrsokolov <timac11@bk.ru> fix commit 09d8229ef03aee717465324e9d0dfb9001721c02 Author: github-actions <github-actions@github.com> Update CHANGELOG.md for release 21
+## Release 23 - 2024-07-21
+commit d75f416438ac1cffbbdc53f98144bbd7ddbb21bb Author: aleksandrsokolov <timac11@bk.ru> fixes commit e59ce95ebf8a0955f58ad6d0b0786306d4bc16d4 Author: aleksandrsokolov <timac11@bk.ru> correction commit d6b1c465c9994ab5e4e7fff513966f1453c5b99b Author: aleksandrsokolov <timac11@bk.ru> minor correction commit 05bbeca6fdf75fa7fe8a12f149ec16443f2d2767 Author: aleksandrsokolov <timac11@bk.ru> minor correction commit 604fd5c9378f020a25bfe859b0ea3db4bb9e447c Author: aleksandrsokolov <timac11@bk.ru> minor correction commit 1d0ed1e16d7a7b5aa9864f842a139e142b964bf0 Author: aleksandrsokolov <timac11@bk.ru> add fix release flow commit be29c8a48d0a8ceda5005d9c6a0ce34256522d0b Author: aleksandrsokolov <timac11@bk.ru> minor correction commit 9eb2414282c63da5657ae28e168de9ee86ad6fd3 Author: aleksandrsokolov <timac11@bk.ru> minor correction commit fcbb6345ab3d274e49363288d2c97ff33e093be3 Author: aleksandrsokolov <timac11@bk.ru> minor correction commit 0da86e0ed621bee5bd35a38a25fb4a9c13b4fc1d Author: aleksandrsokolov <timac11@bk.ru> minor correction commit 2279bfa4a6a60c26ade2a52867ac5e3741e27850 Author: aleksandrsokolov <timac11@bk.ru> add deploy prod action commit 973d6e8cf895bdc3c60c621abdd951db76b2f6cd Author: github-actions <github-actions@github.com> Update CHANGELOG.md for release 22
 
-## Release 21 - 2024-07-20
-commit 9311face79bde726f1e12a78941ccbb422528d1d Author: aleksandrsokolov <timac11@bk.ru> fix
-
-
+## Release 22 - 2024-07-20 commit c42cf16c9c1fed4cc709bd180ef96f70b863621e Author: aleksandrsokolov <timac11@bk.ru> fix commit 09d8229ef03aee717465324e9d0dfb9001721c02 Author: github-actions <github-actions@github.com> Update CHANGELOG.md for release 21 ## Release 21 - 2024-07-20 commit 9311face79bde726f1e12a78941ccbb422528d1d Author: aleksandrsokolov <timac11@bk.ru> fix
