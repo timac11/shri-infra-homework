@@ -102,7 +102,7 @@ jobs:
           ISSUE_BODY="$ISSUE_BODY\n\n**Author**: ${{ github.actor }}"
           tag_name="v${{ github.event.inputs.release_version }}_fix${{ github.run_number }}"
           prev_tag="v${{ github.event.inputs.release_version }}"
-          ISSUE_BODY="$ISSUE_BODY\n\n**Commits List**:\n$(git log ---pretty=format:'%h%x09%an%x09%ad%x09%s' $prev_tag..$tag_name)\n"
+          ISSUE_BODY="$ISSUE_BODY\n\n**Commits List**:\n$(git log --pretty=format:'%h%x09%an%x09%ad%x09%s' $prev_tag..$tag_name)\n"
           ISSUE_BODY="$ISSUE_BODY\n\n**Docker Image**:\n https://cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.event.inputs.release_version }}"
           echo -e $ISSUE_BODY > msg
           gh issue comment $issue_id --body "$(cat msg)" --repo $GITHUB_REPOSITORY
